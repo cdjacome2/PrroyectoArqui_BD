@@ -24,6 +24,150 @@ DROP TABLE IF EXISTS vehiculos CASCADE;
 
 DROP TABLE IF EXISTS vendedores CASCADE;
 
+-- tabla: pagares
+comment on table pagares is 'tabla que registra los pagarés asociados a una solicitud de crédito.';
+comment on column pagares.id_pagare is 'identificador único del pagaré.';
+comment on column pagares.id_solicitud is 'referencia a la solicitud de crédito relacionada.';
+comment on column pagares.numero_cuota is 'número de la cuota correspondiente al pagaré.';
+comment on column pagares.ruta_archivo is 'ruta donde se almacena digitalmente el archivo del pagaré.';
+comment on column pagares.fecha_generado is 'fecha en la que fue generado el pagaré.';
+comment on column pagares.version is 'versión del registro para control de cambios.';
+
+-- tabla: solicitudes_creditos
+comment on table solicitudes_creditos is 'tabla que contiene todas las solicitudes de crédito realizadas por los clientes.';
+comment on column solicitudes_creditos.id_solicitud is 'identificador único de la solicitud de crédito.';
+comment on column solicitudes_creditos.id_cliente_prospecto is 'referencia al cliente prospecto que realiza la solicitud.';
+comment on column solicitudes_creditos.id_vehiculo is 'referencia al vehículo que se desea financiar.';
+comment on column solicitudes_creditos.id_vendedor is 'referencia al vendedor que gestionó la solicitud.';
+comment on column solicitudes_creditos.numero_solicitud is 'número o código único de la solicitud.';
+comment on column solicitudes_creditos.monto_solicitado is 'monto total del crédito solicitado.';
+comment on column solicitudes_creditos.plazo_meses is 'plazo del crédito expresado en meses.';
+comment on column solicitudes_creditos.fecha_solicitud is 'fecha en que se registró la solicitud.';
+comment on column solicitudes_creditos.entrada is 'valor de entrada o pago inicial del crédito.';
+comment on column solicitudes_creditos.score_interno is 'puntaje interno de riesgo calculado por la entidad.';
+comment on column solicitudes_creditos.score_externo is 'puntaje de riesgo obtenido de entidades externas.';
+comment on column solicitudes_creditos.relacion_cuota_ingreso is 'relación entre la cuota mensual y los ingresos del cliente.';
+comment on column solicitudes_creditos.tasa_anual is 'tasa de interés anual aplicada.';
+comment on column solicitudes_creditos.cuota_mensual is 'valor estimado de la cuota mensual a pagar.';
+comment on column solicitudes_creditos.total_pagar is 'monto total a pagar al finalizar el crédito.';
+comment on column solicitudes_creditos.estado is 'estado actual de la solicitud: Borrador, En revisión, Aprobada, Rechazada o Cancelada.';
+comment on column solicitudes_creditos.version is 'versión del registro para control de cambios.';
+
+-- tabla: tipos_documentos
+comment on table tipos_documentos is 'tabla que define los tipos de documentos que se pueden adjuntar en una solicitud.';
+comment on column tipos_documentos.id_tipo_documento is 'identificador único del tipo de documento.';
+comment on column tipos_documentos.nombre is 'nombre del tipo de documento (ej. cédula, papeleta, etc.).';
+comment on column tipos_documentos.descripcion is 'descripción del tipo de documento.';
+comment on column tipos_documentos.estado is 'estado del tipo de documento: activo o inactivo.';
+comment on column tipos_documentos.version is 'versión del registro para control de cambios.';
+
+-- tabla: vehiculos
+comment on table vehiculos is 'tabla que contiene los datos de los vehículos disponibles para financiamiento.';
+comment on column vehiculos.id_vehiculo is 'identificador único del vehículo.';
+comment on column vehiculos.id_concesionario is 'referencia al concesionario al que pertenece el vehículo.';
+comment on column vehiculos.id_identificador_vehiculo is 'referencia al registro de identificación del vehículo.';
+comment on column vehiculos.marca is 'marca del vehículo.';
+comment on column vehiculos.modelo is 'modelo del vehículo.';
+comment on column vehiculos.anio is 'año de fabricación del vehículo.';
+comment on column vehiculos.valor is 'valor comercial del vehículo.';
+comment on column vehiculos.color is 'color principal del vehículo.';
+comment on column vehiculos.extras is 'características adicionales u opcionales del vehículo.';
+comment on column vehiculos.estado is 'estado del vehículo: nuevo o usado.';
+comment on column vehiculos.version is 'versión del registro para control de cambios.';
+
+-- tabla: vendedores
+comment on table vendedores is 'tabla que almacena información de los vendedores de los concesionarios.';
+comment on column vendedores.id_vendedor is 'identificador único del vendedor.';
+comment on column vendedores.id_concesionario is 'referencia al concesionario al que pertenece el vendedor.';
+comment on column vendedores.nombre is 'nombre completo del vendedor.';
+comment on column vendedores.telefono is 'número de contacto del vendedor.';
+comment on column vendedores.email is 'correo electrónico del vendedor.';
+comment on column vendedores.estado is 'estado del vendedor: activo o inactivo.';
+comment on column vendedores.version is 'versión del registro para control de cambios.';
+
+-- tabla: contratos
+comment on table contratos is 'tabla que contiene los contratos generados a partir de las solicitudes de crédito.';
+comment on column contratos.id_contrato is 'identificador único del contrato.';
+comment on column contratos.id_solicitud is 'referencia a la solicitud de crédito asociada.';
+comment on column contratos.ruta_archivo is 'ruta donde se almacena el archivo del contrato.';
+comment on column contratos.fecha_generado is 'fecha en que fue generado el contrato.';
+comment on column contratos.fecha_firma is 'fecha en la que se firmó el contrato.';
+comment on column contratos.estado is 'estado actual del contrato: Draft, Firmado, Cancelado.';
+comment on column contratos.condicion_especial is 'observaciones o condiciones especiales aplicables al contrato.';
+comment on column contratos.version is 'versión del registro para control de cambios.';
+
+-- tabla: documentos_adjuntos
+comment on table documentos_adjuntos is 'tabla que almacena los documentos adjuntos a una solicitud de crédito.';
+comment on column documentos_adjuntos.id_documento is 'identificador único del documento adjunto.';
+comment on column documentos_adjuntos.id_solicitud is 'referencia a la solicitud de crédito correspondiente.';
+comment on column documentos_adjuntos.id_tipo_documento is 'referencia al tipo de documento.';
+comment on column documentos_adjuntos.ruta_archivo is 'ruta del sistema donde se almacena el archivo.';
+comment on column documentos_adjuntos.fecha_cargado is 'fecha en la que se cargó el documento.';
+comment on column documentos_adjuntos.version is 'versión del registro para control de cambios.';
+
+-- tabla: historial_estados
+comment on table historial_estados is 'tabla que registra el historial de cambios de estado de una solicitud de crédito.';
+comment on column historial_estados.id_historial is 'identificador único del historial.';
+comment on column historial_estados.id_solicitud is 'referencia a la solicitud de crédito.';
+comment on column historial_estados.estado is 'estado asignado en el evento registrado.';
+comment on column historial_estados.fecha_hora is 'fecha y hora del cambio de estado.';
+comment on column historial_estados.usuario is 'usuario que realizó el cambio.';
+comment on column historial_estados.motivo is 'motivo del cambio de estado.';
+comment on column historial_estados.version is 'versión del registro para control de cambios.';
+
+-- tabla: identificadores_vehiculos
+comment on table identificadores_vehiculos is 'tabla que almacena identificadores únicos de los vehículos.';
+comment on column identificadores_vehiculos.id_identificador_vehiculo is 'identificador único del registro de identificación.';
+comment on column identificadores_vehiculos.vin is 'número de identificación del vehículo (VIN).';
+comment on column identificadores_vehiculos.numero_motor is 'número de motor del vehículo.';
+comment on column identificadores_vehiculos.placa is 'número de placa del vehículo.';
+comment on column identificadores_vehiculos.version is 'versión del registro para control de cambios.';
+
+-- tabla: observacion_analistas
+comment on table observacion_analistas is 'tabla que registra observaciones realizadas por los analistas sobre una solicitud.';
+comment on column observacion_analistas.id_observacion_analista is 'identificador único de la observación.';
+comment on column observacion_analistas.id_solicitud is 'referencia a la solicitud asociada.';
+comment on column observacion_analistas.usuario is 'usuario que realizó la observación.';
+comment on column observacion_analistas.fecha_hora is 'fecha y hora en que se registró la observación.';
+comment on column observacion_analistas.razon_intervencion is 'razón o justificación de la intervención del analista.';
+comment on column observacion_analistas.version is 'versión del registro para control de cambios.';
+
+-- tabla: auditorias
+comment on table auditorias is 'tabla que contiene información sobre auditorias.';
+comment on column auditorias.id_auditoria is 'identificador único de auditoria, relacionado con la tabla auditorias.';
+comment on column auditorias.tabla is 'nombre de la tabla afectada en la auditoría.';
+comment on column auditorias.accion is 'acción realizada: INSERT, UPDATE o DELETE.';
+comment on column auditorias.fecha_hora is 'fecha y hora del evento registrado.';
+
+-- tabla: clientes_prospectos
+comment on table clientes_prospectos is 'tabla que contiene información sobre clientes prospectos.';
+comment on column clientes_prospectos.id_cliente_prospecto is 'identificador único de cliente prospecto.';
+comment on column clientes_prospectos.cedula is 'número de cédula del cliente prospecto.';
+comment on column clientes_prospectos.nombre is 'nombres del cliente prospecto.';
+comment on column clientes_prospectos.apellido is 'apellidos del cliente prospecto.';
+comment on column clientes_prospectos.telefono is 'número de teléfono del cliente prospecto.';
+comment on column clientes_prospectos.email is 'correo electrónico registrado del cliente prospecto.';
+comment on column clientes_prospectos.direccion is 'dirección física del cliente prospecto.';
+comment on column clientes_prospectos.ingresos is 'ingresos mensuales declarados.';
+comment on column clientes_prospectos.egresos is 'egresos mensuales declarados.';
+comment on column clientes_prospectos.actividad_economica is 'actividad económica del cliente prospecto.';
+comment on column clientes_prospectos.estado is 'estado del cliente prospecto: Activo, Nuevo, Prospecto, etc.';
+comment on column clientes_prospectos.version is 'versión del registro para control de cambios.';
+
+-- tabla: concesionarios
+comment on table concesionarios is 'tabla que contiene información sobre concesionarios registrados.';
+comment on column concesionarios.id_concesionario is 'identificador único del concesionario.';
+comment on column concesionarios.razon_social is 'razón social del concesionario.';
+comment on column concesionarios.direccion is 'dirección física del concesionario.';
+comment on column concesionarios.telefono is 'número de contacto del concesionario.';
+comment on column concesionarios.email_contacto is 'correo electrónico de contacto del concesionario.';
+comment on column concesionarios.estado is 'estado del concesionario: activo o inactivo.';
+comment on column concesionarios.version is 'versión del registro para control de cambios.';
+
+/*==============================================================*/
+/* Creación de ENUMS                                            */
+/*==============================================================*/
+
 CREATE TYPE estado_clientes_enum AS ENUM ('Activo', 'Nuevo', 'ActivoCreditosVencidos', 'Prospecto');
 CREATE TYPE estado_concesio_enum AS ENUM ('Activo', 'Inactivo');
 CREATE TYPE estado_contrato_enum AS ENUM ('Draft', 'Firmado', 'Cancelado');
