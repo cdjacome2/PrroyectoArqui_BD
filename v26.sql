@@ -24,6 +24,10 @@ DROP TABLE IF EXISTS vehiculos CASCADE;
 
 DROP TABLE IF EXISTS vendedores CASCADE;
 
+/*==============================================================*/
+/* Diccionario de Datos                                         */
+/*==============================================================*/
+
 -- tabla: pagares
 comment on table pagares is 'tabla que registra los pagarés asociados a una solicitud de crédito.';
 comment on column pagares.id_pagare is 'identificador único del pagaré.';
