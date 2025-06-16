@@ -53,6 +53,7 @@ create table auditorias (
 /*==============================================================*/
 create table clientes_prospectos (
    id_cliente_prospecto   SERIAL               not null,
+   id_cliente_core        SERIAL               not null,
    cedula                VARCHAR(10)          not null,
    nombre                VARCHAR(50)          not null,
    apellido              VARCHAR(50)          not null,
@@ -65,6 +66,7 @@ create table clientes_prospectos (
    estado                estado_clientes_enum not null,
    version               NUMERIC(9)           not null,
    constraint pk_clientes_prospectos primary key (id_cliente_prospecto),
+   constraint pk_id_cliente_core primary key (id_cliente_core),
    constraint ak_key_2_clientes unique (cedula)
 );
 
@@ -171,6 +173,7 @@ create table pagares (
 create table solicitudes_creditos (
    id_solicitud          SERIAL               not null,
    id_cliente_prospecto  INT                  not null,
+   id_cliente_core       INT                  not null,
    id_vehiculo           INT                  not null,
    id_vendedor           INT                  not null,
    numero_solicitud      VARCHAR(50)          not null,
@@ -282,6 +285,11 @@ alter table solicitudes_creditos
 alter table solicitudes_creditos
    add constraint fk_solicitu_reference_clientes foreign key (id_cliente_prospecto)
       references clientes_prospectos (id_cliente_prospecto)
+      on delete restrict on update restrict;
+	  
+alter table solicitudes_creditos
+   add constraint fk_solicitu_reference_clientesp foreign key (id_cliente_core)
+      references clientes_core (id_cliente_core)
       on delete restrict on update restrict;
 
 alter table vehiculos
